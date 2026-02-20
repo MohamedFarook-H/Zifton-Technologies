@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zifton | Technology Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root { --primary-color: #FF5200; --secondary-color: #1A1A1A; --bg-light: #F8F9FA; --bg-card: #FFFFFF; --text-muted: #666666; --transition: all 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-light); color: var(--secondary-color); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3, h4 { font-weight: 800; line-height: 1.2; }
+        .text-orange { color: var(--primary-color); }
+        .btn { display: inline-block; padding: 15px 30px; border-radius: 30px; font-weight: 600; cursor: pointer; border: none; font-size: 16px; transition: var(--transition); text-align: center; }
+        .btn-primary { background-color: var(--primary-color); color: white; box-shadow: 0 4px 15px rgba(255, 82, 0, 0.3); }
+        .btn-primary:hover { background-color: #E04800; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 82, 0, 0.4); }
+
+        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-wrapper { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-icon { width: 40px; height: 40px; background: var(--primary-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 24px; }
+        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        
+        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none; }
+        .nav-links a { font-weight: 500; font-size: 16px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-color); }
+        .mobile-menu-btn { display: none; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--secondary-color); }
+
+        .hero { padding: 180px 0 100px; text-align: center; min-height: 70vh; display: flex; flex-direction: column; justify-content: center;}
+        .hero h1 { font-size: clamp(36px, 6vw, 64px); margin-bottom: 20px; }
+        .hero p { font-size: clamp(16px, 2.5vw, 20px); color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; }
+        
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 80px 0; }
+        .card { background: var(--bg-card); padding: 40px 30px; border-radius: 20px; transition: var(--transition); border: 1px solid #EFEFEF; display: flex; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.02);}
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--primary-color); }
+        .card-icon { width: 60px; height: 60px; background: rgba(255, 82, 0, 0.1); color: var(--primary-color); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px; }
+        .card h3 { font-size: 24px; margin-bottom: 15px; }
+        .card p { color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
+
+        footer { background: #111; color: white; padding: 40px 0; text-align: center; margin-top: 50px;}
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { position: absolute; top: 80px; left: -100%; width: 100%; background: white; flex-direction: column; padding: 30px 0; box-shadow: 0 10px 10px rgba(0,0,0,0.05); transition: var(--transition); }
+            .nav-links.active { left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo-wrapper"><div class="logo-icon">Z</div><div class="logo-text">ZIF<span class="text-orange">TON</span></div></a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html" class="text-orange" style="font-weight: 800;">Home</a></li>
+                    <li><a href="delivery.html">Delivery</a></li>
+                    <li><a href="labs.html">Labs</a></li>
+                    <li><a href="eco.html">Eco</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="contact.html" class="btn btn-primary" style="color:white; padding:10px 20px;">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="menuBtn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div id="dynamic_home_title"><h1>Building the Future of <br><span class="text-orange">Technology & Commerce</span></h1></div>
+            <div id="dynamic_home_desc"><p>Zifton is an independent technology ecosystem creating smart solutions for everyday life. From powerful software to revolutionary local delivery.</p></div>
+            <div style="margin-top: 30px;"><a href="#explore" class="btn btn-primary">Explore Zifton</a></div>
+        </div>
+    </section>
+
+    <section class="container grid-cards" id="explore">
+        <a href="labs.html" class="card">
+            <div class="card-icon">💻</div><h3>Zifton Labs</h3>
+            <p>Our core engineering hub developing custom software, AI-driven applications, and scalable management platforms.</p>
+            <div class="text-orange" style="font-weight:600; margin-top:auto;">Learn More &rarr;</div>
+        </a>
+        <a href="delivery.html" class="card">
+            <div class="card-icon">🛵</div><h3>Zifton Delivery</h3>
+            <p>A tech-powered hyper-local concierge service. Direct-market access to deliver essentials faster than ever without hubs.</p>
+            <div class="text-orange" style="font-weight:600; margin-top:auto;">Explore App &rarr;</div>
+        </a>
+        <a href="eco.html" class="card">
+            <div class="card-icon">🌱</div><h3>Zifton Eco</h3>
+            <p>Integrating green tech. We build sustainable logistics solutions and software to track and reduce community carbon footprints.</p>
+            <div class="text-orange" style="font-weight:600; margin-top:auto;">View Initiatives &rarr;</div>
+        </a>
+    </section>
+
+    <footer>
+        <div class="container"><p>&copy; <span id="year"></span> Zifton Technologies, Mannargudi. All rights reserved. | <a href="privacy.html" style="color:#FF5200;">Privacy Policy</a></p></div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('active'); });
+
+        const SUPABASE_URL = 'https://ruqdtkefpyfunvgyytnq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4';
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function loadDynamicContent() {
+            const { data } = await db.from('site_content').select('*');
+            if (data) {
+                data.forEach(row => {
+                    const el = document.getElementById('dynamic_' + row.section_name);
+                    if (el) el.innerHTML = row.html_content;
+                });
+            }
+        }
+        loadDynamicContent();
+    </script>
+</body>
+</html>

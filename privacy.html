@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Zifton</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #FF5200; --secondary-color: #1A1A1A; --bg-light: #F8F9FA; --bg-card: #FFFFFF; --text-muted: #666666; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--secondary-color); line-height: 1.8; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        
+        header { background: rgba(255, 255, 255, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-wrapper { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; background: var(--primary-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 24px; }
+        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+
+        .legal-content { padding: 150px 0 80px; background: var(--bg-card); min-height: 100vh; }
+        .legal-content h1 { font-size: clamp(36px, 5vw, 50px); margin-bottom: 10px; font-weight: 800;}
+        .legal-content h2 { font-size: 24px; margin: 30px 0 15px; color: var(--primary-color); font-weight: 800;}
+        .legal-content p { color: var(--text-muted); margin-bottom: 15px; font-size: 18px;}
+
+        footer { background: #111; color: white; padding: 40px 0; text-align: center;}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="max-width: 1200px;">
+            <nav>
+                <a href="index.html" class="logo-wrapper"><div class="logo-icon">Z</div><div class="logo-text">ZIF<span style="color:#FF5200">TON</span></div></a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="legal-content">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p style="font-weight: 600;">Last updated: February 2026</p>
+
+            <h2>1. Information We Collect</h2>
+            <p>At Zifton Technologies, we collect information to provide better hyper-local delivery and software services to all our users. This includes basic account info and precise location data required to process direct market-to-home deliveries via our app.</p>
+
+            <h2>2. How We Use Information</h2>
+            <p>We use the data we collect to operate, maintain, and improve our ecosystem. Location data is strictly used by Zifton Delivery partners to map the shortest and greenest route from the local market to your doorstep.</p>
+
+            <h2>3. No-Hub Cancellation Policy (Delivery)</h2>
+            <p>Because we operate a direct-concierge model without dark stores, perishable goods (Food, Meat, Flowers) cannot be canceled once our delivery partner has picked them up from the vendor. Refunds are not applicable for active perishable orders.</p>
+
+            <h2>4. Contact Us</h2>
+            <p>If you have any questions regarding data usage or Zifton Labs, please contact us at support@zifton.com.</p>
+        </div>
+    </div>
+
+    <footer><div class="container"><p>&copy; <span id="year"></span> Zifton Technologies. All rights reserved.</p></div></footer>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

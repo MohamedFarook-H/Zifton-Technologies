@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Zifton | Our Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root { --primary-color: #FF5200; --secondary-color: #1A1A1A; --bg-light: #F8F9FA; --bg-card: #FFFFFF; --text-muted: #666666; --transition: all 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--secondary-color); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-wrapper { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; background: var(--primary-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 24px; }
+        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none;}
+        .mobile-menu-btn { display: none; font-size: 24px; background: none; border: none; cursor: pointer; color: var(--secondary-color); }
+
+        .page-header { padding: 180px 0 80px; background-color: var(--secondary-color); color: white; text-align: center; }
+        .page-header h1 { font-size: clamp(36px, 5vw, 60px); margin-bottom: 20px; }
+        
+        .content-section { padding: 80px 0; }
+        .story-block { background: var(--bg-card); padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 40px; }
+
+        footer { background: #111; color: white; padding: 40px 0; text-align: center; margin-top: 50px;}
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { position: absolute; top: 80px; left: -100%; width: 100%; background: white; flex-direction: column; padding: 30px 0; box-shadow: 0 10px 10px rgba(0,0,0,0.05); transition: var(--transition); }
+            .nav-links.active { left: 0; }
+            .story-block { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo-wrapper"><div class="logo-icon">Z</div><div class="logo-text">ZIF<span style="color:#FF5200">TON</span></div></a>
+                <ul class="nav-links" id="navLinks">
+                   li><a href="index.html">Home</a></li>
+                    <li><a href="delivery.html">Delivery</a></li>
+                    <li><a href="labs.html">Labs</a></li>
+                    <li><a href="eco.html">Eco</a></li>
+                    <li><a href="about.html"style="color:#FF5200; font-weight: 800;">About</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+		    <li><a href="contact.html">Contact</a></li>
+
+                </ul>
+                <button class="mobile-menu-btn" id="menuBtn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>About Zifton</h1>
+            <p style="font-size: clamp(16px, 2vw, 20px); color: #ccc;">We are a technology-first company dedicated to building systems that empower local communities.</p>
+        </div>
+    </div>
+
+    <div class="content-section container">
+        <div class="story-block" id="dynamic_about_vision">
+            <h2 style="color: #FF5200; margin-bottom: 20px; font-size: 32px;">The Zifton Vision</h2>
+            <p style="font-size: 18px; color: #666; margin-bottom: 15px;">Founded by Mohamed Farook, Zifton started with a simple yet powerful vision: to bridge the gap between advanced technology and daily local commerce.</p>
+            <p style="font-size: 18px; color: #666;">Today, Zifton has evolved into an "All-In-One" technology ecosystem. From our direct-to-home hyper-local delivery app to our custom software development wing, we are building a better future through code.</p>
+        </div>
+    </div>
+
+    <footer><div class="container"><p>&copy; <span id="year"></span> Zifton Technologies. All rights reserved.</p></div></footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('active'); });
+
+        const SUPABASE_URL = 'https://ruqdtkefpyfunvgyytnq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4';
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function loadDynamicContent() {
+            const { data } = await db.from('site_content').select('*');
+            if (data) {
+                data.forEach(row => {
+                    const el = document.getElementById('dynamic_' + row.section_name);
+                    if (el) el.innerHTML = row.html_content;
+                });
+            }
+        }
+        loadDynamicContent();
+    </script>
+</body>
+</html>

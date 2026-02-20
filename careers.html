@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | Zifton</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root { --primary-color: #FF5200; --secondary-color: #1A1A1A; --bg-light: #F8F9FA; --bg-card: #FFFFFF; --text-muted: #666666; --transition: all 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--secondary-color); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        header { background: rgba(255, 255, 255, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-wrapper { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; background: var(--primary-color); border-radius: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 24px; }
+        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none;}
+        .mobile-menu-btn { display: none; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--secondary-color); }
+
+        .page-header { padding: 180px 0 80px; background-color: var(--primary-color); color: white; text-align: center; }
+        .page-header h1 { font-size: clamp(36px, 5vw, 50px); margin-bottom: 20px; font-weight: 800;}
+        
+        .jobs-section { padding: 80px 0; min-height: 40vh; }
+        .job-card { background: var(--bg-card); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--primary-color); flex-wrap: wrap; gap: 20px; }
+        .job-title { font-size: 24px; font-weight: 800; }
+        .job-dept { color: var(--text-muted); font-size: 16px; margin-top: 5px; }
+        .apply-btn { background: var(--secondary-color); color: white; padding: 12px 25px; border-radius: 8px; font-weight: 600; transition: 0.3s; white-space: nowrap; }
+        .apply-btn:hover { background: var(--primary-color); }
+
+        footer { background: #111; color: white; padding: 40px 0; text-align: center; }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links { position: absolute; top: 80px; left: -100%; width: 100%; background: white; flex-direction: column; padding: 30px 0; box-shadow: 0 10px 10px rgba(0,0,0,0.05); transition: var(--transition); }
+            .nav-links.active { left: 0; }
+            .job-card { flex-direction: column; align-items: flex-start; }
+            .apply-btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo-wrapper"><div class="logo-icon">Z</div><div class="logo-text">ZIF<span style="color:#FF5200">TON</span></div></a>
+                <ul class="nav-links" id="navLinks">
+                   <li><a href="index.html" class="text-orange" style="font-weight: 800;">Home</a></li>
+                    <li><a href="delivery.html">Delivery</a></li>
+                    <li><a href="labs.html">Labs</a></li>
+                    <li><a href="eco.html">Eco</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="careers.html"style="color:#FF5200; font-weight: 800;">Careers</a></li>
+		    <li><a href="contact.html">Contact</a></li>
+
+                </ul>
+                <button class="mobile-menu-btn" id="menuBtn">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Join the Zifton Team</h1>
+            <p style="font-size: clamp(16px, 2vw, 20px); max-width: 600px; margin: 0 auto;">Help us build the next generation of hyper-local commerce and technology.</p>
+        </div>
+    </div>
+
+    <div class="jobs-section container">
+        <h2 style="margin-bottom: 30px; font-size: 32px;">Open Positions</h2>
+        <div id="dynamicJobsContainer">
+            <p style="text-align: center; color: #888; padding: 50px;">Fetching live open roles from server...</p>
+        </div>
+    </div>
+
+    <footer><div class="container"><p>&copy; <span id="year"></span> Zifton Technologies. All rights reserved.</p></div></footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('active'); });
+
+        const SUPABASE_URL = 'https://ruqdtkefpyfunvgyytnq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4';
+        
+        // Correct Variable setup
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function fetchLiveJobs() {
+            const { data, error } = await db.from('jobs').select('*').order('id', { ascending: false });
+            const container = document.getElementById('dynamicJobsContainer');
+            
+            if (error) {
+                console.error(error);
+                container.innerHTML = `<div style="color:red; text-align:center; padding: 20px;">Database Error: ${error.message}</div>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div style="background: white; padding: 40px; text-align: center; border-radius: 15px;">No open positions right now. Check back later!</div>';
+                return;
+            }
+            
+            container.innerHTML = ''; 
+            data.forEach(job => {
+                container.innerHTML += `<div class="job-card"><div><div class="job-title">${job.title}</div><div class="job-dept">${job.department} • <span style="font-weight:600; color:#FF5200;">${job.job_type}</span></div></div><a href="contact.html" class="apply-btn">Apply Now</a></div>`;
+            });
+        }
+        fetchLiveJobs();
+    </script>
+</body>
+</html>
