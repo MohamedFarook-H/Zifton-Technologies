@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zifton Delivery | Hyper-Local Direct Delivery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --primary-color: #FF5200; --secondary-color: #1A1A1A; --bg-light: #F8F9FA; --bg-card: #FFFFFF; --text-muted: #666666; --transition: all 0.3s ease; }
@@ -19,13 +20,23 @@
 
         header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo-wrapper { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 40px; height: 40px; background: var(--primary-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 24px; }
-        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        
+        /* NEW TECH LOGO STYLES */
+        .logo-wrapper { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .tech-symbol { width: 36px; height: 36px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .tech-shape-1, .tech-shape-2 { position: absolute; width: 20px; height: 10px; border-radius: 3px; }
+        .tech-shape-1 { background: var(--primary-color); top: 5px; left: 0; transform: skewX(-25deg); box-shadow: -1px 1px 5px rgba(255, 82, 0, 0.2); }
+        .tech-shape-2 { background: var(--secondary-color); bottom: 5px; right: 0; transform: skewX(-25deg); }
+        .tech-node { position: absolute; width: 6px; height: 6px; background: var(--primary-color); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px white; z-index: 2; }
+        .logo-text { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; color: var(--secondary-color);}
+        .logo-text span { color: var(--primary-color); }
+
         .nav-links { display: flex; gap: 30px; align-items: center; list-style: none;}
         .nav-links a { font-weight: 500; transition: var(--transition); }
         .nav-links a:hover { color: var(--primary-color); }
-        .mobile-menu-btn { display: none; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--secondary-color); }
+        
+        /* NEW HAMBURGER ICON */
+        .mobile-menu-btn { display: none; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--secondary-color); transition: 0.3s;}
 
         .page-hero { padding: 180px 0 100px; background-color: var(--secondary-color); color: white; text-align: center; }
         .page-hero h1 { font-size: clamp(36px, 5vw, 60px); margin-bottom: 20px; }
@@ -55,17 +66,26 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo-wrapper"><div class="logo-icon">Z</div><div class="logo-text">ZIF<span class="text-orange">TON</span></div></a>
+                <a href="index.html" class="logo-wrapper">
+                    <div class="tech-symbol">
+                        <div class="tech-shape-1"></div>
+                        <div class="tech-shape-2"></div>
+                        <div class="tech-node"></div>
+                    </div>
+                    <div class="logo-text">ZIF<span>TON</span></div>
+                </a>
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="delivery.html"class="text-orange" style="font-weight: 800;">Delivery</a></li>
+                    <li><a href="delivery.html" class="text-orange" style="font-weight: 800;">Delivery</a></li>
                     <li><a href="labs.html">Labs</a></li>
                     <li><a href="eco.html">Eco</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="careers.html">Careers</a></li>
-		    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
-                <button class="mobile-menu-btn" id="menuBtn">☰</button>
+                <button class="mobile-menu-btn" id="menuBtn">
+                    <i class="ri-menu-4-line"></i>
+                </button>
             </nav>
         </div>
     </header>
@@ -103,12 +123,25 @@
     </div>
 
     <footer><div class="container"><p>&copy; <span id="year"></span> Zifton Technologies. All rights reserved.</p></div></footer>
+    
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('active'); });
+        
+        // NEW HAMBURGER LOGIC
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', () => { 
+            navLinks.classList.toggle('active'); 
+            if(navLinks.classList.contains('active')) {
+                menuBtn.innerHTML = '<i class="ri-close-line"></i>';
+            } else {
+                menuBtn.innerHTML = '<i class="ri-menu-4-line"></i>';
+            }
+        });
 
         const SUPABASE_URL = 'https://ruqdtkefpyfunvgyytnq.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4'; // Replace
         const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         async function loadDynamicContent() {
@@ -123,5 +156,4 @@
         loadDynamicContent();
     </script>
 </body>
-
 </html>

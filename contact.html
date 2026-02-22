@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Zifton</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --primary-color: #FF5200; --secondary-color: #1A1A1A; --bg-light: #F8F9FA; --bg-card: #FFFFFF; --text-muted: #666666; --transition: all 0.3s ease; }
@@ -15,24 +18,37 @@
         
         header { background: rgba(255, 255, 255, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         nav { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo-wrapper { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 40px; height: 40px; background: var(--primary-color); border-radius: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 24px; }
-        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        
+        /* --- NEW TECH LOGO STYLES --- */
+        .logo-wrapper { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .tech-symbol { width: 36px; height: 36px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .tech-shape-1, .tech-shape-2 { position: absolute; width: 20px; height: 10px; border-radius: 3px; }
+        .tech-shape-1 { background: var(--primary-color); top: 5px; left: 0; transform: skewX(-25deg); box-shadow: -1px 1px 5px rgba(255, 82, 0, 0.2); }
+        .tech-shape-2 { background: var(--secondary-color); bottom: 5px; right: 0; transform: skewX(-25deg); }
+        .tech-node { position: absolute; width: 6px; height: 6px; background: var(--primary-color); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px white; z-index: 2; }
+        .logo-text { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; color: var(--secondary-color);}
+        .logo-text span { color: var(--primary-color); }
+
         .nav-links { display: flex; gap: 30px; align-items: center; list-style: none;}
-        .mobile-menu-btn { display: none; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--secondary-color); }
+        .nav-links a { font-weight: 500; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary-color); }
+        
+        /* --- NEW HAMBURGER ICON --- */
+        .mobile-menu-btn { display: none; font-size: 28px; background: none; border: none; cursor: pointer; color: var(--secondary-color); transition: 0.3s;}
 
         .page-header { padding: 180px 0 80px; background-color: var(--secondary-color); color: white; text-align: center; }
         .page-header h1 { font-size: clamp(36px, 5vw, 50px); margin-bottom: 20px; font-weight: 800;}
         
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; padding: 20px ; }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; padding: 40px 20px ; }
         .contact-info { background: var(--bg-card); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .info-item { margin-bottom: 30px; }
         .info-item h3 { color: var(--primary-color); margin-bottom: 10px; font-size: 20px;}
         
-        .contact-form input, .contact-form textarea { width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; font-family: 'Outfit'; font-size: 16px; background: var(--bg-card);}
+        .contact-form input, .contact-form textarea { width: 100%; padding: 18px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; font-family: 'Outfit'; font-size: 16px; background: var(--bg-card); transition: var(--transition);}
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(255, 82, 0, 0.1);}
         .contact-form textarea { height: 150px; resize: none; }
         .submit-btn { background: var(--primary-color); color: white; border: none; padding: 18px 30px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; font-size: 18px; transition: 0.3s;}
-        .submit-btn:hover { background: #E04800; transform: translateY(-2px);}
+        .submit-btn:hover { background: #E04800; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 82, 0, 0.2);}
 
         footer { background: #111; color: white; padding: 40px 0; text-align: center; }
 
@@ -48,18 +64,28 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo-wrapper"><div class="logo-icon">Z</div><div class="logo-text">ZIF<span style="color:#FF5200">TON</span></div></a>
+                <a href="index.html" class="logo-wrapper">
+                    <div class="tech-symbol">
+                        <div class="tech-shape-1"></div>
+                        <div class="tech-shape-2"></div>
+                        <div class="tech-node"></div>
+                    </div>
+                    <div class="logo-text">ZIF<span>TON</span></div>
+                </a>
+                
                 <ul class="nav-links" id="navLinks">
-                   <li><a href="index.html" class="text-orange" style="font-weight: 800;">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="delivery.html">Delivery</a></li>
                     <li><a href="labs.html">Labs</a></li>
                     <li><a href="eco.html">Eco</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="careers.html">Careers</a></li>
-		    <li><a href="contact.html"style="color:#FF5200; font-weight: 800;">Contact</a></li>
-
+                    <li><a href="contact.html" style="color:#FF5200; font-weight: 800;">Contact</a></li>
                 </ul>
-                <button class="mobile-menu-btn" id="menuBtn">☰</button>
+                
+                <button class="mobile-menu-btn" id="menuBtn">
+                    <i class="ri-menu-4-line"></i>
+                </button>
             </nav>
         </div>
     </header>
@@ -82,9 +108,18 @@
             </form>
         </div>
         <div class="contact-info">
-            <div class="info-item"><h3>📍 Headquarters</h3><p>Zifton Technologies,<br>Mannargudi, Tamil Nadu,<br>India - 614001.</p></div>
-            <div class="info-item"><h3>✉️ Email Us</h3><p>Support: ziftontechnologies@gmail.com
-<br>Careers: noctubits@gmail.com</p></div>
+            <div class="info-item">
+                <h3>📍 Headquarters</h3>
+                <p>Zifton Technologies,<br>Mannargudi, Tamil Nadu,<br>India - 614001.</p>
+            </div>
+            <div class="info-item">
+                <h3>✉️ Email Us</h3>
+                <p>Support: ziftontechnologies@gmail.com<br>Careers: noctubits@gmail.com</p>
+            </div>
+            <div class="info-item">
+                <h3>🌍 Operations</h3>
+                <p>Currently serving hyper-local zones within the Mannargudi and surrounding digital sectors.</p>
+            </div>
         </div>
     </div>
 
@@ -92,25 +127,36 @@
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
-        document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('active'); });
+        
+        // NEW HAMBURGER LOGIC
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', () => { 
+            navLinks.classList.toggle('active'); 
+            if(navLinks.classList.contains('active')) {
+                menuBtn.innerHTML = '<i class="ri-close-line"></i>';
+            } else {
+                menuBtn.innerHTML = '<i class="ri-menu-4-line"></i>';
+            }
+        });
 
         const SUPABASE_URL = 'https://ruqdtkefpyfunvgyytnq.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1cWR0a2VmcHlmdW52Z3l5dG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDgwMzEsImV4cCI6MjA4NzE4NDAzMX0.43EggbYVqYLJtuQrAc-nu2SovSkZbZORMqplJKwozr4'; // <-- REPLACE THIS WITH YOUR KEY
         
-        // Correct variable initialization
         const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.textContent = 'Sending...';
+            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> Sending...';
             btn.style.opacity = '0.7';
+            btn.disabled = true;
 
             const name = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
             const message = document.getElementById('userMessage').value;
 
-            // Correct db insert
             const { error } = await db.from('messages').insert([{ name, email, message }]);
 
             if (error) { 
@@ -121,10 +167,10 @@
                 document.getElementById('contactForm').reset(); 
             }
             
-            btn.textContent = 'Send Secure Message';
+            btn.innerHTML = 'Send Secure Message';
             btn.style.opacity = '1';
+            btn.disabled = false;
         });
     </script>
 </body>
-
 </html>
